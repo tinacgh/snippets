@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Edit code snippet</title>
+    <style>
+      body, td {
+      font-family: Arial, sans-serif;
+      font-size: 12px; 
+      }
+      label {
+      font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="{% url 'snippets:index' %}">Go back</a><br>
+    {% if form.errors %}
+    Please correct the error(s) below.
+    {% endif %}
+
+    <form action="" method="post">
+      <input type="hidden" name="snippet_id" value="{{ snippet_id }}">
+      <table>
+        {{ form.as_table }}
+      </table>
+      {% csrf_token %}
+      <input type="submit" value="Save">
+    </form>
+  </body>
+</html>

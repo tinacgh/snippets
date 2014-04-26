@@ -1,0 +1,113 @@
+<html>
+  <head>
+    <title>code snippets</title>
+    <style>
+      body, td {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      border: 1px solid;
+      }
+      .code { display: block; font-family: ProggyTinyTTSZ, Courier New, monospace; font-size: 16px; }
+      .header { position: fixed; top: 0px; background-color: #eee; padding: 3px; }
+      .hidden { visibility: hidden; }        
+    </style>
+  </head>
+  <body>
+    <table border="0" cellpadding="5" width="100%" style="border: 0; border-collapse: collapse;">
+      <tr>
+        <td width="25%">description</td>
+        <td width="8%">files</td>
+        <td width="7%">link</td>
+        <td width="15%">extra</td>
+        <td width="45%">code</td>
+      </tr>
+
+{% for snippet in snippets %}
+      <tr>
+        <td>{{ snippet.description }}</td>
+        <td>{{ snippet.files }}</td>
+        <td>{{ snippet.extra }}</td>
+        <td><a href="{{ snippet.link }}">link</a></td>
+        <td><pre class="code">
+{{ snippet.code }}
+        </pre></td>
+      </tr>
+      <tr>
+        <td>NOTE: search by description keyword, limit display by file</td>
+        <td>devel</td>
+        <td><a href="#">link</a></td>
+        <td><pre class="code">
+none
+        </pre></td>
+      </tr>
+      <tr>
+        <td>add stacked inline</td>
+        <td>app/admin.py</td>
+        <td><a href="#">link</a></td>
+        <td><pre class="code">devel
+from django.contrib import admin
+from polls.models import Choice, Poll
+
+class ChoiceInline(admin.StackedInline):
+    model = Choice
+    extra = 3
+
+class PollAdmin(admin.ModelAdmin):
+    fieldsets = [
+        (None,               {'fields': ['question']}),
+        ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
+    ]
+    inlines = [ChoiceInline]
+
+admin.site.register(Poll, PollAdmin)
+        </pre></td>
+      </tr>
+      <tr>
+        <td>dynamic url resolution</td>
+        <td>app/template.html</td>
+        <td><a href="#">link</a></td>
+        <td><pre class="code">
+abc
+        </pre></td>
+      </tr>
+
+     <tr>
+        <td>render shortcut</td>
+        <td>app/views.py</td>
+        <td><a href="#">link</a></td>
+        <td><pre class="code">
+from django.shortcuts import render
+
+from polls.models import Poll
+
+def index(request):
+    latest_poll_list = Poll.objects.all().order_by('-pub_date')[:5]
+    context = {'latest_poll_list': latest_poll_list}
+    return render(request, 'polls/index.html', context)
+        </pre></td>
+      </tr>
+
+
+      <tr>
+        <td>add an app</td>
+        <td>site/settings.py</td>
+        <td><a href="#">link</a></td>
+        <td><pre class="code">
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    # Uncomment the next line to enable the admin:
+    # 'django.contrib.admin',
+    # Uncomment the next line to enable admin documentation:
+    # 'django.contrib.admindocs',
+    'polls',
+)
+        </pre></td>
+      </tr>
+
+
+      

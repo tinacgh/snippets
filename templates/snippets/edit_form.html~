@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Add code snippet</title>
+    <style>
+      body, td {
+      font-family: Arial, sans-serif;
+      font-size: 12px; 
+      }
+      label {
+      font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="{% url 'snippets:index' %}">Go back</a><br>
+    {% if form.errors %}
+    Please correct the error(s) below.
+    {% endif %}
+
+    <form action="" method="post">
+      <table>
+        <tr><td colspan="2"><b>Add language/framework to description</b></td></tr>
+        {{ form.as_table }}
+      </table>
+      {% csrf_token %}
+      <input type="submit">
+    </form>
+  </body>
+</html>

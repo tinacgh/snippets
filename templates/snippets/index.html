@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>code snippets</title>
+    <style>
+      body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      }
+      td {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      border: 1px solid;      
+      }
+      .code { display: block; font-family: Lucida Console, Courier New, monospace; font-size: 12px; }
+      .header { position: fixed; top: 0px; background-color: #eee; padding: 3px; }
+      .hidden { visibility: hidden; }        
+    </style>
+  </head>
+  <body>
+    <form action="">Find: <input type="text" name="q"><input type="submit">
+      <a href="{% url 'snippets:add' %}">Add</a>
+    </form>
+    {% if query %}
+    <b>Results for: {{ query }}</b><br>
+    {% endif %}
+
+    <a href="?page=1">First</a>
+    
+    {% if snippets.has_previous %}
+    <a href="?page={{ snippets.previous_page_number }}">Prev</a>
+    {% else %}
+    Prev
+    {% endif %}
+    
+    {% if snippets.has_next %}
+    <a href="?page={{ snippets.next_page_number }}">Next</a>
+    {% else %}
+    Next
+    {% endif %}
+    
+    <a href="?page={{ snippets.paginator.num_pages }}">Last</a>
+
+    page {{ snippets.number }} of {{ snippets.paginator.num_pages }}
+    
+    <table border="0" cellpadding="5" width="100%" style="border: 0; border-collapse: collapse;">
+      <tr>
+        <td width="25%">description</td>
+        <td width="8%">files</td>
+        <td width="7%">link</td>
+        <td width="15%">date</td>
+        <td width="35%">code</td>
+<td width="10%">extra</td>
+      </tr>
+
+{% for snippet in snippets %}
+      <tr>
+        <td>{{ snippet.description }}<br><br>
+          <a href="{% url 'snippets:edit' snippet.id %}">edit</a> |
+          del?
+          <input type="checkbox" onclick="toggleText({{ snippet.id }});">
+          <a href="{% url 'snippets:delete' snippet.id %}" id="{{ snippet.id }}" class="hidden">(yes)</a></td>
+        <td>{{ snippet.files }}</td>
+        <td>{% if snippet.link %}<a href="{{ snippet.link }}" target="_blank">link</a>{% endif %}</td>
+<td>{{ snippet.date|date:"d/m H:i" }}</td>
+
+        <td><pre class="code">
+{{ snippet.code }}
+        </pre></td>
+        <td>{{ snippet.extra }}</td>
+
+      </tr>
+{% endfor %}
+    </table>
+    <script>
+      function toggleText(id) {
+        document.getElementById(id).style.visibility="visible";
+      }
+    </script>
+  </body>
+</html>
